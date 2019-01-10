@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Time left</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      .container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .item {
+        margin: 1em 0;
+      }
+      .item--title {
+        /* font-weight: 600; */
+      }
+      .item--countdown {
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const countDownDateAvengers = new Date("2019, 04, 26").getTime();
+      const countDownDateMarvel = new Date("2019, 03, 08").getTime();
+
+      function getDays(distance) {
+        return Math.floor(distance / (1000 * 60 * 60 * 24));
+      }
+      function getHours(distance) {
+        return Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+      }
+      function getMinutes(distance) {
+        return Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      }
+      function getSeconds(distance) {
+        return Math.floor((distance % (1000 * 60)) / 1000);
+      }
+
+      // Update the count down every 1 second
+      const countdown = setInterval(function() {
+        // Get todays date and time
+        const now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        const distanceAvengers = countDownDateAvengers - now;
+        const distanceMarvel = countDownDateMarvel - now;
+
+        // update time
+        const days = getDays(distanceAvengers);
+        const hours = getHours(distanceAvengers);
+        const minutes = getMinutes(distanceAvengers);
+        const seconds = getSeconds(distanceAvengers);
+
+        const daysM = getDays(distanceMarvel);
+        const hoursM = getHours(distanceMarvel);
+        const minutesM = getMinutes(distanceMarvel);
+        const secondsM = getSeconds(distanceMarvel);
+
+        // Display the result in the element with id="demo"
+        document.querySelector(
+          "[data-js=countDownDateAvengers]"
+        ).innerHTML = `${days}day(s) ${hours}:${minutes}:${seconds}`;
+        document.querySelector(
+          "[data-js=countDownDateMarvel]"
+        ).innerHTML = `${daysM}day(s) ${hoursM}:${minutesM}:${secondsM}`;
+
+        // If the count down is finished, write some text
+        if (distanceAvengers < 0) {
+          clearInterval(x);
+          document.querySelector("[data-js=countDownDateAvengers]").innerHTML =
+            "EXPIRED";
+        }
+        if (distanceMarvel < 0) {
+          clearInterval(x);
+          document.querySelector("[data-js=countDownDateMarvel]").innerHTML =
+            "EXPIRED";
+        }
+      }, 1000);
+    </script>
+    <div class="container">
+      <h2>Time left</h2>
+
+      <div class="section">
+        <div class="item">
+          <p class="item--title">
+            Avengers: Endgame
+            <span
+              class="item--countdown"
+              data-js="countDownDateAvengers"
+            ></span>
+          </p>
+        </div>
+        <div class="item">
+          <p class="item--title">
+            Captain Marvel
+            <span class="item--countdown" data-js="countDownDateMarvel"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
